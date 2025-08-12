@@ -3,6 +3,7 @@
 ```
 思维没有边界 一切皆有可能
 ```
+:rocket:[**TG交流群**](https://t.me/catvodtv_offical)
 
 本工程最终食用需配合 猫影视TV新版（一下简称为软件） **v2.0.0**及以上版本。
 
@@ -20,6 +21,8 @@
 
 ### 代码包食用方式
 ----
+**2.1.1Beta5版本已弃用custom_spider.jar的读取，本地请配合clan://协议测试**
+
 本地加载：将`custom_spider.jar`放入设备sd卡根目录即可。 **注意，如需本地加载，请手动赋予App存储空间读写权限，App默认不申请存储空间读写权限**
 
 远程加载：将`custom_spider.jar`上传到你的网络空间，获取对应的文件下载地址，在软件自定义配置的json文件中加入下面格式的键值对。
@@ -82,12 +85,42 @@
 <summary>配置代码示例 点我展开</summary>
 
 ```json
-{"key":"csp_appys_南府追剧", "name":"南府追剧(M)", "type":3, "api":"csp_AppYs","searchable":1,"quickSearch":0,"filterable":1,"ext":"http://iapp.nfuxs.club/dnmb.php/v1.vod"},
-{"key":"csp_appys_HG影视", "name":"HG影视(M)", "type":3, "api":"csp_AppYs","searchable":1,"quickSearch":0,"filterable":1,"ext":"http://hgyx.vip/api.php/v1.vod"},
-{"key":"csp_appys_瑞丰资源", "name":"瑞丰资源(M)", "type":3, "api":"csp_AppYs","searchable":1,"quickSearch":0,"filterable":1,"ext":"https://ts.yjhan.com:4433/ruifenglb_api.php/v1.vod"},
+{"key":"csp_appysv2_追剧达人", "name":"追剧推荐(M2)", "type":3,"api":"csp_AppYsV2", "searchable":1, "quickSearch":0, "filterable":1, "ext":"https://vipmv.co/xgapp.php/v1/"},
+{"key":"csp_appysv2_天空影视", "name":"天空推荐(M2)", "type":3,"api":"csp_AppYsV2", "searchable":1, "quickSearch":0, "filterable":1, "ext":"https://tkys.tv/xgapp.php/v1/"},
+{"key":"csp_appys_HG影视", "name":"HG影视(M)", "type":3, "api":"csp_AppYs", "searchable":1, "quickSearch":0, "filterable":1, "ext":"http://hgyx.vip/api.php/v1.vod"},
+{"key":"csp_appys_瑞丰资源", "name":"瑞丰资源(M)", "type":3, "api":"csp_AppYs", "searchable":1, "quickSearch":0, "filterable":1, "ext":"https://ts.yjhan.com:4433/ruifenglb_api.php/v1.vod"},
 ```
 </details>
 
+---
+
+**部分内置代理接口使用（需v2.0.9及以上版本）**
+
+入口 [Proxy](/app/src/main/java/com/github/catvod/spider/Proxy.java)
+
+图片代理，示例参考[Nekk](/app/src/main/java/com/github/catvod/spider/Nekk.java#L449)
+
+直播配置重定向代理，示例参考[TxtSubscribe](/app/src/main/java/com/github/catvod/live/TxtSubscribe.java)
+
+---
+
+**推送功能扩展（需v2.1.0.Beta6及以上版本）**
+
+入口 [PushAgent](/app/src/main/java/com/github/catvod/spider/PushAgent.java)
+
+需要在配置文件中，加入key为`push_agent`的站点，数据返回格式和普通爬虫一致
+
+```json
+{
+  "key": "push_agent",
+  "name": "推送",
+  "type": 3,
+  "api": "csp_PushAgent",
+  "searchable": 0,
+  "quickSearch": 0,
+  "filterable": 0
+}
+```
 ---
 
 ## 基础类
@@ -95,7 +128,7 @@
 
 > com.github.catvod.crawler.Spider 爬虫基类
 
-> com.github.catvod.crawler.SpiderReq 用于发起网络请求 获取网络数据
+> com.github.catvod.crawler.SpiderReq 用于发起网络请求 获取网络数据，请使用[OkHttpUtil](/app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java)类，SpiderReq后续将删除
 
 > com.github.catvod.crawler.SpiderReqResult 网络请求结果
 
